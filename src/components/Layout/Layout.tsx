@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
+import CategoryFilter from '../CategoryFilter/CategoryFilter';
 
 type LayoutProps = {
   FormComponent: React.ComponentType;
@@ -39,6 +40,9 @@ const Layout = ({ FormComponent, TableComponent, MapComponent }: LayoutProps) =>
         >
           <FormComponent />
         </Box>
+        <Box sx={{ flex: '0 0 auto', paddingBottom: 1 }}>
+          <CategoryFilter />
+        </Box>
         <Box
           sx={{
             flex: { xs: '0 0 auto', md: '0 0 55%' },
@@ -46,7 +50,7 @@ const Layout = ({ FormComponent, TableComponent, MapComponent }: LayoutProps) =>
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
-            paddingBottom: { xs: 2, md: 4 },
+            paddingBottom: { xs: 2, md: 8 },
           }}
         >
           <TableComponent />

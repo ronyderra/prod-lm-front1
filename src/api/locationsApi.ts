@@ -1,12 +1,18 @@
 import { axiosClient } from './axiosClient';
 import { LocationFormData, Location } from '../types/location.types';
 
-export const getLocations = (page: number = 1) => {
-  if (page === 1) {
-    return axiosClient.get('/locations').then((res) => res.data);
+export const getLocations = (page: number = 1, category?: string) => {
+  const params: { page?: number; category?: string } = {};
+  
+  if (page > 1) {
+    params.page = page;
+  }
+  
+  if (category && category !== '') {
+    params.category = category;
   }
 
-  return axiosClient.get('/locations', { params: { page } }).then((res) => res.data);
+  return axiosClient.get('/locations', { params }).then((res) => res.data);
 };
 
 export const getAllLocations = () => axiosClient.get('/locations').then((res) => res.data);

@@ -12,6 +12,7 @@ import { Style, Icon } from 'ol/style';
 import { Location } from '../../types/location.types';
 import { useLocations } from '../../hooks/useLocations';
 import { useLocationPage } from '../../contexts/LocationPageContext';
+import { useCategoryFilter } from '../../contexts/CategoryFilterContext';
 import 'ol/ol.css';
 import './LocationMap.css';
 
@@ -38,9 +39,10 @@ const LocationMap = () => {
   const mapInstanceRef = useRef<Map | null>(null);
   const vectorSourceRef = useRef<VectorSource | null>(null);
   const { page } = useLocationPage();
+  const { category } = useCategoryFilter();
   // Convert 0-based page to 1-based for API (page 0 = API page 1, page 1 = API page 2, etc.)
   const apiPage = page + 1;
-  const { data, isLoading } = useLocations(apiPage);
+  const { data, isLoading } = useLocations(apiPage, category);
 
   useEffect(() => {
     if (!mapRef.current) return;
