@@ -33,6 +33,7 @@ const Layout = ({ FormComponent, TableComponent, MapComponent }: LayoutProps) =>
             flex: { xs: '0 0 auto', md: '0 0 45%' },
             minHeight: 0,
             overflow: 'auto',
+            marginTop: 2,
           }}
         >
           <FormComponent />
@@ -54,6 +55,7 @@ const Layout = ({ FormComponent, TableComponent, MapComponent }: LayoutProps) =>
           width: { xs: '100%', md: '50%' },
           height: { xs: '400px', md: '100%' },
           padding: { xs: 2, md: 3 },
+          marginBottom: { xs: 2, md: 0 },
           display: 'flex',
           flexDirection: 'column',
         }}
