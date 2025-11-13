@@ -92,9 +92,6 @@ const LocationForm = () => {
                   <FormControl fullWidth required error={!!errors.category}>
                     <InputLabel>Category</InputLabel>
                     <Select {...field} label="Category">
-                      <MenuItem value="">
-                        <em>Select Category</em>
-                      </MenuItem>
                       <MenuItem value="office">Office</MenuItem>
                       <MenuItem value="store">Store</MenuItem>
                       <MenuItem value="landmark">Landmark</MenuItem>

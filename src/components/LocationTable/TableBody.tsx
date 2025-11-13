@@ -23,8 +23,8 @@ const TableBody = ({ locations, onEditClick, onDeleteClick }: TableBodyProps) =>
 
   return (
     <MuiTableBody>
-      {locations?.map((location, index) => (
-        <TableRow key={index}>
+      {locations?.map((location) => (
+        <TableRow key={location._id}>
           <TableCell>{location.name}</TableCell>
           <TableCell>{location.category}</TableCell>
           <TableCell>{location.coordinates.lon}</TableCell>

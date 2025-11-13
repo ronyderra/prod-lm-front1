@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Table, TableContainer, TablePagination, Paper } from '@mui/material';
 import { Location } from '../../types/location.types';
 import { useLocations } from '../../hooks/useLocations';
@@ -14,7 +14,6 @@ import './LocationTable.css';
 const LocationTable = () => {
   const { page, setPage } = useLocationPage();
   const { category } = useCategoryFilter();
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const deleteDialog = useDialog();
   const editDialog = useDialog();
   const { openDialog: openEditDialog, closeDialog: closeEditDialog } = editDialog;
@@ -26,21 +25,19 @@ const LocationTable = () => {
   const totalCount = useMemo(() => data?.total ?? 0, [data]);
 
   useEffect(() => {
-    setPage(0);
-  }, [category, setPage]);
+    if (page > 0 && totalCount > 0) {
+      const maxPage = Math.max(0, Math.ceil(totalCount / 10) - 1);
+      if (page > maxPage) {
+        setPage(0);
+      }
+    } else if (category && page > 0) {
+      setPage(0);
+    }
+  }, [category, totalCount, page, setPage]);
 
   const changePage = useCallback(
-    (_event: unknown, newPage: number) => {
+    (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
       setPage(newPage);
-    },
-    [setPage]
-  );
-
-  const changeRows = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const newRowsPerPage = parseInt(event.target.value, 10);
-      setRowsPerPage(newRowsPerPage);
-      setPage(0);
     },
     [setPage]
   );
@@ -100,8 +97,7 @@ const LocationTable = () => {
         count={totalCount}
         page={page}
         onPageChange={changePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={changeRows}
+        rowsPerPage={10}
         rowsPerPageOptions={[]}
         labelRowsPerPage=""
       />

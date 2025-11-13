@@ -26,7 +26,7 @@ const createFeature = (location: Location): Feature<Point> => {
 };
 
 const calculateExtent = (features: Feature<Point>[]): Extent | null => {
-  if (features?.length === 0) return null;
+  if (features.length === 0) return null;
   const coords = features.map((f) => f.getGeometry()?.getCoordinates() || [0, 0]);
   const xs = coords.map((c) => c[0]);
   const ys = coords.map((c) => c[1]);
