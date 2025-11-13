@@ -15,8 +15,6 @@ export const getLocations = (page: number = 1, category?: string) => {
   return axiosClient.get('/locations', { params }).then((res) => res.data);
 };
 
-export const getAllLocations = () => axiosClient.get('/locations').then((res) => res.data);
-
 export const createLocation = (data: LocationFormData): Promise<Location> =>
   axiosClient.post('/locations', data).then((res) => res.data);
 
