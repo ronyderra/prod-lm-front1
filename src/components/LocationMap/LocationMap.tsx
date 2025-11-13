@@ -40,7 +40,6 @@ const LocationMap = () => {
   const vectorSourceRef = useRef<VectorSource | null>(null);
   const { page } = useLocationPage();
   const { category } = useCategoryFilter();
-  // Convert 0-based page to 1-based for API (page 0 = API page 1, page 1 = API page 2, etc.)
   const apiPage = page + 1;
   const { data, isLoading } = useLocations(apiPage, category);
 

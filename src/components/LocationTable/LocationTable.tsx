@@ -20,13 +20,11 @@ const LocationTable = () => {
   const { openDialog: openEditDialog, closeDialog: closeEditDialog } = editDialog;
   const { openDialog: openDeleteDialog, closeDialog: closeDeleteDialog } = deleteDialog;
   const [selectedRow, setSelectedRow] = useState<Location | null>(null);
-  // Convert 0-based page to 1-based for API (page 0 = API page 1, page 1 = API page 2, etc.)
   const apiPage = page + 1;
   const { data, isLoading, error } = useLocations(apiPage, category);
   const locations = useMemo(() => data?.data || [], [data]);
   const totalCount = useMemo(() => data?.total ?? 0, [data]);
 
-  // Reset to first page when category filter changes
   useEffect(() => {
     setPage(0);
   }, [category, setPage]);
@@ -38,11 +36,14 @@ const LocationTable = () => {
     [setPage]
   );
 
-  const changeRows = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const newRowsPerPage = parseInt(event.target.value, 10);
-    setRowsPerPage(newRowsPerPage);
-    setPage(0);
-  }, []);
+  const changeRows = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const newRowsPerPage = parseInt(event.target.value, 10);
+      setRowsPerPage(newRowsPerPage);
+      setPage(0);
+    },
+    [setPage]
+  );
 
   const editClick = useCallback(
     (location: Location) => {
