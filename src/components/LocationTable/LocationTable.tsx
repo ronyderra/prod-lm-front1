@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useMemo } from 'react';
+import React, { useState, ChangeEvent, useMemo, useCallback } from 'react';
 import { Table, TableContainer, TablePagination, Paper } from '@mui/material';
 import { Location } from '../../types/location.types';
 import { useLocations } from '../../hooks/useLocations';
@@ -14,6 +14,8 @@ const LocationTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const deleteDialog = useDialog();
   const editDialog = useDialog();
+  const { openDialog: openEditDialog, closeDialog: closeEditDialog } = editDialog;
+  const { openDialog: openDeleteDialog, closeDialog: closeDeleteDialog } = deleteDialog;
   const [selectedRow, setSelectedRow] = useState<Location | null>(null);
   const { data, isLoading, error } = useLocations();
   const locations = useMemo(() => data?.data || [], [data]);
@@ -23,31 +25,40 @@ const LocationTable = () => {
     [locations, page, rowsPerPage]
   );
 
-  const changePage = (_event: unknown, newPage: number) => setPage(newPage);
-  const changeRows = (event: ChangeEvent<HTMLInputElement>) => {
+  const changePage = useCallback((_event: unknown, newPage: number) => {
+    setPage(newPage);
+  }, []);
+
+  const changeRows = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
+  }, []);
 
-  const editClick = (location: Location) => {
-    setSelectedRow(location);
-    editDialog.openDialog();
-  };
+  const editClick = useCallback(
+    (location: Location) => {
+      setSelectedRow(location);
+      openEditDialog();
+    },
+    [openEditDialog]
+  );
 
-  const editClose = () => {
+  const editClose = useCallback(() => {
     setSelectedRow(null);
-    editDialog.closeDialog();
-  };
+    closeEditDialog();
+  }, [closeEditDialog]);
 
-  const deleteClick = (location: Location) => {
-    setSelectedRow(location);
-    deleteDialog.openDialog();
-  };
+  const deleteClick = useCallback(
+    (location: Location) => {
+      setSelectedRow(location);
+      openDeleteDialog();
+    },
+    [openDeleteDialog]
+  );
 
-  const deleteClose = () => {
+  const deleteClose = useCallback(() => {
     setSelectedRow(null);
-    deleteDialog.closeDialog();
-  };
+    closeDeleteDialog();
+  }, [closeDeleteDialog]);
 
   if (isLoading) {
     return (

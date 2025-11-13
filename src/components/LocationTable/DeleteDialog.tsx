@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Dialog as MuiDialog,
   DialogTitle,
@@ -12,8 +12,8 @@ import { useDeleteLocation } from '../../hooks/useDeleteLocation';
 
 export const useDialog = () => {
   const [open, setOpen] = useState(false);
-  const openDialog = () => setOpen(true);
-  const closeDialog = () => setOpen(false);
+  const openDialog = useCallback(() => setOpen(true), []);
+  const closeDialog = useCallback(() => setOpen(false), []);
 
   return { open, openDialog, closeDialog };
 };
