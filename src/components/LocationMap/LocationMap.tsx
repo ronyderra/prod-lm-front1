@@ -67,6 +67,7 @@ const LocationMap = () => {
 
     return () => map.setTarget(undefined);
   }, []);
+  
   useEffect(() => {
     const vectorSource = vectorSourceRef.current;
     const map = mapInstanceRef.current;
