@@ -1,0 +1,27 @@
+{
+  "extends": ["react-app", "react-app/jest", "prettier"],
+  "rules": {
+    "max-len": [
+      "warn",
+      {
+        "code": 100,
+        "tabWidth": 2,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+      }
+    ],
+    "padded-blocks": ["error", "never"],
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1, "maxBOF": 0 }],
+    "lines-between-class-members": ["error", "never"],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "function" },   // before functions
+      { "blankLine": "always", "prev": "function", "next": "*" },   // after functions
+      { "blankLine": "always", "prev": "*", "next": "class" },      // before classes
+      { "blankLine": "always", "prev": "block-like", "next": "*" }, // after if/for/while/try blocks
+      { "blankLine": "always", "prev": "*", "next": "return" }      // before return
+    ]
+  }
+}

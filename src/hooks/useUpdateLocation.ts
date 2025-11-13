@@ -1,0 +1,18 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { updateLocation } from '../api/locationsApi';
+import { LocationFormData } from '../types/location.types';
+
+export const useUpdateLocation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: LocationFormData }) => updateLocation(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['locations'] });
+    },
+    onError: (error) => {
+      console.error('Failed to update location:', error);
+      alert('Could not update location');
+    },
+  });
+};
