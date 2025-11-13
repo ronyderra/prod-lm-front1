@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { Box } from '@mui/material';
 import { Map, View, Feature } from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -68,6 +68,26 @@ const LocationMap = () => {
     return () => map.setTarget(undefined);
   }, []);
   
+  const locations = useMemo(() => {
+    return data?.data ?? [];
+  }, [data]);
+
+  const features = useMemo(() => {
+    if (isLoading || locations.length === 0) {
+      return [];
+    }
+
+    return locations.map(createFeature);
+  }, [locations, isLoading]);
+
+  const extent = useMemo(() => {
+    if (features.length === 0) {
+      return null;
+    }
+
+    return calculateExtent(features);
+  }, [features]);
+
   useEffect(() => {
     const vectorSource = vectorSourceRef.current;
     const map = mapInstanceRef.current;
@@ -77,7 +97,6 @@ const LocationMap = () => {
     
     vectorSource.clear();
 
-    const locations = data?.data || [];
     if (locations.length === 0) {
       map.getView().setCenter(fromLonLat([0, 0]));
       map.getView().setZoom(2);
@@ -85,13 +104,11 @@ const LocationMap = () => {
       return;
     }
 
-    const features = locations.map(createFeature);
     vectorSource.addFeatures(features);
-    const extent = calculateExtent(features);
     if (extent) {
       map.getView().fit(extent, { padding: [50, 50, 50, 50], duration: 500 });
     }
-  }, [data, isLoading]);
+  }, [features, extent, locations, isLoading]);
 
   return (
     <Box className="location-map-container" sx={{ position: 'relative' }}>

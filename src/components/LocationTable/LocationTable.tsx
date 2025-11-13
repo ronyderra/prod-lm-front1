@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useMemo } from 'react';
 import { Table, TableContainer, TablePagination, Paper } from '@mui/material';
 import { Location } from '../../types/location.types';
 import { useLocations } from '../../hooks/useLocations';
@@ -16,7 +16,12 @@ const LocationTable = () => {
   const editDialog = useDialog();
   const [selectedRow, setSelectedRow] = useState<Location | null>(null);
   const { data, isLoading, error } = useLocations();
-  const locations = data?.data || [];
+  const locations = useMemo(() => data?.data || [], [data]);
+
+  const paginatedLocations = useMemo(
+    () => locations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [locations, page, rowsPerPage]
+  );
 
   const changePage = (_event: unknown, newPage: number) => setPage(newPage);
   const changeRows = (event: ChangeEvent<HTMLInputElement>) => {
@@ -55,8 +60,6 @@ const LocationTable = () => {
   if (error) {
     return <Paper className="location-table-container">Error loading locations</Paper>;
   }
-
-  const paginatedLocations = locations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
     <Paper className="location-table-container">
