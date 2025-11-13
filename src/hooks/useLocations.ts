@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { getLocations } from '../api/locationsApi';
 
-export const useLocations = () => {
+export const useLocations = (page: number = 1) => {
   return useQuery({
-    queryKey: ['locations'],
-    queryFn: getLocations,
+    queryKey: ['locations', page],
+    queryFn: () => getLocations(page),
   });
 };

@@ -10,7 +10,7 @@ import { fromLonLat } from 'ol/proj';
 import { Extent } from 'ol/extent';
 import { Style, Icon } from 'ol/style';
 import { Location } from '../../types/location.types';
-import { useLocations } from '../../hooks/useLocations';
+import { useAllLocations } from '../../hooks/useAllLocations';
 import 'ol/ol.css';
 import './LocationMap.css';
 
@@ -36,7 +36,7 @@ const LocationMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<Map | null>(null);
   const vectorSourceRef = useRef<VectorSource | null>(null);
-  const { data, isLoading } = useLocations();
+  const { data, isLoading } = useAllLocations();
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -69,6 +69,11 @@ const LocationMap = () => {
   }, []);
   
   const locations = useMemo(() => {
+    // Handle both array response and { data: [...] } response
+    if (Array.isArray(data)) {
+      return data;
+    }
+
     return data?.data ?? [];
   }, [data]);
 

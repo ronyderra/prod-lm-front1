@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, ChangeEvent, useMemo, useCallback } from 'react';
 import { Table, TableContainer, TablePagination, Paper } from '@mui/material';
 import { Location } from '../../types/location.types';
 import { useLocations } from '../../hooks/useLocations';
@@ -17,29 +17,19 @@ const LocationTable = () => {
   const { openDialog: openEditDialog, closeDialog: closeEditDialog } = editDialog;
   const { openDialog: openDeleteDialog, closeDialog: closeDeleteDialog } = deleteDialog;
   const [selectedRow, setSelectedRow] = useState<Location | null>(null);
-  const { data, isLoading, error } = useLocations();
+  // Convert 0-based page to 1-based for API (page 0 = API page 1, page 1 = API page 2, etc.)
+  const apiPage = page + 1;
+  const { data, isLoading, error } = useLocations(apiPage);
   const locations = useMemo(() => data?.data || [], [data]);
-  const totalCount = useMemo(() => data?.total ?? locations.length, [data, locations.length]);
-
-  const paginatedLocations = useMemo(
-    () => locations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [locations, page, rowsPerPage]
-  );
-
-  // Reset page if current page is out of bounds after locations change
-  useEffect(() => {
-    const maxPage = Math.max(0, Math.ceil(totalCount / rowsPerPage) - 1);
-    if (page > maxPage) {
-      setPage(0);
-    }
-  }, [totalCount, rowsPerPage, page]);
+  const totalCount = useMemo(() => data?.total ?? 0, [data]);
 
   const changePage = useCallback((_event: unknown, newPage: number) => {
     setPage(newPage);
   }, []);
 
   const changeRows = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    setRowsPerPage(newRowsPerPage);
     setPage(0);
   }, []);
 
@@ -87,7 +77,7 @@ const LocationTable = () => {
         <Table size="small">
           <TableHead />
           <TableBody
-            locations={paginatedLocations}
+            locations={locations}
             onEditClick={editClick}
             onDeleteClick={deleteClick}
           />
