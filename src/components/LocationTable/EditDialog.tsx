@@ -82,7 +82,8 @@ const EditDialog = ({ open, onClose, location }: EditDialogProps) => {
   };
 
   return (
-    <MuiDialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <>
+      <MuiDialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>Edit Location</DialogTitle>
       <form onSubmit={handleSubmit(submit)}>
         <DialogContent>
@@ -186,17 +187,18 @@ const EditDialog = ({ open, onClose, location }: EditDialogProps) => {
           </Button>
         </DialogActions>
       </form>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-          Location updated successfully!
-        </Alert>
-      </Snackbar>
     </MuiDialog>
+    <Snackbar
+      open={snackbarOpen}
+      autoHideDuration={6000}
+      onClose={handleCloseSnackbar}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    >
+      <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        Location updated successfully!
+      </Alert>
+    </Snackbar>
+  </>
   );
 };
 

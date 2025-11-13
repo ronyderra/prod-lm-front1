@@ -64,24 +64,26 @@ const DeleteDialog = ({
   };
 
   return (
-    <MuiDialog open={open} onClose={onClose} aria-labelledby="dialog-title">
-      <DialogTitle id="dialog-title">{title}</DialogTitle>
-      <DialogContent>
-        <DialogContentText>{message}</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          {cancelText}
-        </Button>
-        <Button
-          onClick={handleConfirm}
-          color={confirmColor}
-          variant="contained"
-          disabled={deleteLocation.isPending}
-        >
-          {deleteLocation.isPending ? 'Deleting...' : confirmText}
-        </Button>
-      </DialogActions>
+    <>
+      <MuiDialog open={open} onClose={onClose} aria-labelledby="dialog-title">
+        <DialogTitle id="dialog-title">{title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{message}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose} color="primary">
+            {cancelText}
+          </Button>
+          <Button
+            onClick={handleConfirm}
+            color={confirmColor}
+            variant="contained"
+            disabled={deleteLocation.isPending}
+          >
+            {deleteLocation.isPending ? 'Deleting...' : confirmText}
+          </Button>
+        </DialogActions>
+      </MuiDialog>
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
@@ -92,7 +94,7 @@ const DeleteDialog = ({
           Location deleted successfully!
         </Alert>
       </Snackbar>
-    </MuiDialog>
+    </>
   );
 };
 
