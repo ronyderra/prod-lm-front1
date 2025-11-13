@@ -14,6 +14,11 @@
   overflow: auto;
 }
 
+.location-table-container .MuiTablePagination-root {
+  flex-shrink: 0;
+  border-top: 1px solid rgba(224, 224, 224, 1);
+}
+
 @media (max-width: 600px) {
   .location-table-container {
     padding: 16px;

@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useMemo, useCallback } from 'react';
+import React, { useState, ChangeEvent, useMemo, useCallback, useEffect } from 'react';
 import { Table, TableContainer, TablePagination, Paper } from '@mui/material';
 import { Location } from '../../types/location.types';
 import { useLocations } from '../../hooks/useLocations';
@@ -19,11 +19,20 @@ const LocationTable = () => {
   const [selectedRow, setSelectedRow] = useState<Location | null>(null);
   const { data, isLoading, error } = useLocations();
   const locations = useMemo(() => data?.data || [], [data]);
+  const totalCount = useMemo(() => data?.total ?? locations.length, [data, locations.length]);
 
   const paginatedLocations = useMemo(
     () => locations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
     [locations, page, rowsPerPage]
   );
+
+  // Reset page if current page is out of bounds after locations change
+  useEffect(() => {
+    const maxPage = Math.max(0, Math.ceil(totalCount / rowsPerPage) - 1);
+    if (page > maxPage) {
+      setPage(0);
+    }
+  }, [totalCount, rowsPerPage, page]);
 
   const changePage = useCallback((_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -86,12 +95,13 @@ const LocationTable = () => {
       </TableContainer>
       <TablePagination
         component="div"
-        count={locations.length}
+        count={totalCount}
         page={page}
         onPageChange={changePage}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={changeRows}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[]}
+        labelRowsPerPage=""
       />
       <DeleteDialog
         open={deleteDialog.open}
