@@ -6,6 +6,8 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import { Location } from '../../types/location.types';
 import { useDeleteLocation } from '../../hooks/useDeleteLocation';
@@ -40,12 +42,14 @@ const DeleteDialog = ({
   confirmColor = 'primary',
 }: DeleteDialogProps) => {
   const deleteLocation = useDeleteLocation();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleConfirm = () => {
     if (location?._id) {
       deleteLocation.mutate(location._id, {
         onSuccess: () => {
           onClose();
+          setSnackbarOpen(true);
         },
         onError: (error) => {
           console.error('Failed to delete location:', error);
@@ -53,6 +57,10 @@ const DeleteDialog = ({
         },
       });
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -74,6 +82,16 @@ const DeleteDialog = ({
           {deleteLocation.isPending ? 'Deleting...' : confirmText}
         </Button>
       </DialogActions>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Location deleted successfully!
+        </Alert>
+      </Snackbar>
     </MuiDialog>
   );
 };

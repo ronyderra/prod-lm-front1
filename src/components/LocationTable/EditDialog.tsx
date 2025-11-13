@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -13,6 +13,8 @@ import {
   FormControl,
   InputLabel,
   Stack,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import { locationSchema, LocationFormData, Location } from '../../types/location.types';
 import { useUpdateLocation } from '../../hooks/useUpdateLocation';
@@ -23,6 +25,7 @@ type EditDialogProps = {
 };
 const EditDialog = ({ open, onClose, location }: EditDialogProps) => {
   const updateLocation = useUpdateLocation();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const {
     control,
     handleSubmit,
@@ -63,6 +66,7 @@ const EditDialog = ({ open, onClose, location }: EditDialogProps) => {
         {
           onSuccess: () => {
             onClose();
+            setSnackbarOpen(true);
           },
           onError: (error) => {
             console.error('Failed to update location:', error);
@@ -71,6 +75,10 @@ const EditDialog = ({ open, onClose, location }: EditDialogProps) => {
         },
       );
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -178,6 +186,16 @@ const EditDialog = ({ open, onClose, location }: EditDialogProps) => {
           </Button>
         </DialogActions>
       </form>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Location updated successfully!
+        </Alert>
+      </Snackbar>
     </MuiDialog>
   );
 };

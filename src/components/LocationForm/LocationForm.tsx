@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -10,6 +10,8 @@ import {
   FormControl,
   InputLabel,
   Stack,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import { locationSchema, LocationFormData } from '../../types/location.types';
 import { useCreateLocation } from '../../hooks/useCreateLocation';
@@ -17,6 +19,7 @@ import './LocationForm.css';
 
 const LocationForm = () => {
   const createLocation = useCreateLocation();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const {
     control,
@@ -40,14 +43,18 @@ const LocationForm = () => {
   const submit = (data: LocationFormData) => {
     createLocation.mutate(data, {
       onSuccess: () => {
-        console.log('Location created successfully');
         reset();
+        setSnackbarOpen(true);
       },
       onError: (error) => {
         console.error('Failed to create location:', error);
         alert('Could not save location');
       },
     });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -174,6 +181,16 @@ const LocationForm = () => {
           </Button>
         </Stack>
       </form>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Location added successfully!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
