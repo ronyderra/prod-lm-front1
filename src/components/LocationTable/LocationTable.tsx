@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, useMemo, useCallback } from 'react';
 import { Table, TableContainer, TablePagination, Paper } from '@mui/material';
 import { Location } from '../../types/location.types';
 import { useLocations } from '../../hooks/useLocations';
+import { useLocationPage } from '../../contexts/LocationPageContext';
 import { useDialog } from './DeleteDialog';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
@@ -10,7 +11,7 @@ import TableBody from './TableBody';
 import './LocationTable.css';
 
 const LocationTable = () => {
-  const [page, setPage] = useState(0);
+  const { page, setPage } = useLocationPage();
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const deleteDialog = useDialog();
   const editDialog = useDialog();
