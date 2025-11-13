@@ -45,7 +45,11 @@ const LocationTable = () => {
   };
 
   if (isLoading) {
-    return <Paper className="location-table-container">Loading...</Paper>;
+    return (
+      <Paper className="location-table-container" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
+        Loading...
+      </Paper>
+    );
   }
 
   if (error) {

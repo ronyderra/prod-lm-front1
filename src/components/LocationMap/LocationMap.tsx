@@ -36,7 +36,7 @@ const LocationMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<Map | null>(null);
   const vectorSourceRef = useRef<VectorSource | null>(null);
-  const { data } = useLocations();
+  const { data, isLoading } = useLocations();
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -72,6 +72,9 @@ const LocationMap = () => {
     const vectorSource = vectorSourceRef.current;
     const map = mapInstanceRef.current;
     if (!vectorSource || !map) return;
+    
+    if (isLoading) return;
+    
     vectorSource.clear();
 
     const locations = data?.data || [];
@@ -88,11 +91,29 @@ const LocationMap = () => {
     if (extent) {
       map.getView().fit(extent, { padding: [50, 50, 50, 50], duration: 500 });
     }
-  }, [data]);
+  }, [data, isLoading]);
 
   return (
-    <Box className="location-map-container">
+    <Box className="location-map-container" sx={{ position: 'relative' }}>
       <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
+      {isLoading && (
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            zIndex: 1000,
+          }}
+        >
+          Loading...
+        </Box>
+      )}
     </Box>
   );
 };
