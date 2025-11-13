@@ -8,10 +8,10 @@ import './App.css';
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     background: {
-      default: '#121212',
-      paper: '#1e1e1e',
+      default: '#f5f5f5',
+      paper: '#ffffff',
     },
   },
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableBody as MuiTableBody, TableRow, TableCell, IconButton } from '@mui/material';
+import { TableBody as MuiTableBody, TableRow, TableCell, IconButton, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Location } from '../../types/location.types';
@@ -32,12 +32,14 @@ const TableBody = ({ locations, onEditClick, onDeleteClick }: TableBodyProps) =>
           <TableCell>{location.address || '-'}</TableCell>
           <TableCell>{location.notes || '-'}</TableCell>
           <TableCell align="right">
-            <IconButton size="small" onClick={() => onEditClick(location)} color="primary">
-              <EditIcon />
-            </IconButton>
-            <IconButton size="small" onClick={() => onDeleteClick(location)} color="error">
-              <DeleteIcon />
-            </IconButton>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 0.5 }}>
+              <IconButton size="small" onClick={() => onEditClick(location)} color="primary">
+                <EditIcon />
+              </IconButton>
+              <IconButton size="small" onClick={() => onDeleteClick(location)} color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Box>
           </TableCell>
         </TableRow>
       ))}

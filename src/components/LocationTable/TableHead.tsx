@@ -4,13 +4,13 @@ const TableHead = () => {
   return (
     <MuiTableHead>
       <TableRow>
-        <TableCell>Name</TableCell>
-        <TableCell>Category</TableCell>
-        <TableCell>Longitude</TableCell>
-        <TableCell>Latitude</TableCell>
-        <TableCell>Address</TableCell>
-        <TableCell>Notes</TableCell>
-        <TableCell align="right">Actions</TableCell>
+        <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
+        <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
+        <TableCell sx={{ fontWeight: 'bold' }}>Longitude</TableCell>
+        <TableCell sx={{ fontWeight: 'bold' }}>Latitude</TableCell>
+        <TableCell sx={{ fontWeight: 'bold' }}>Address</TableCell>
+        <TableCell sx={{ fontWeight: 'bold' }}>Notes</TableCell>
+        <TableCell align="right" sx={{ fontWeight: 'bold' }}>Actions</TableCell>
       </TableRow>
     </MuiTableHead>
   );

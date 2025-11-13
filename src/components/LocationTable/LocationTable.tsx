@@ -61,7 +61,7 @@ const LocationTable = () => {
   return (
     <Paper className="location-table-container">
       <TableContainer>
-        <Table>
+        <Table size="small">
           <TableHead />
           <TableBody
             locations={paginatedLocations}
