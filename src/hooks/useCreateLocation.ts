@@ -8,6 +8,7 @@ export const useCreateLocation = () => {
     mutationFn: createLocation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['locations'] });
+      queryClient.invalidateQueries({ queryKey: ['allLocations'] });
     },
     onError: (error) => {
       console.error('Failed to create location:', error);

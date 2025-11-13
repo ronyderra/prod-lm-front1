@@ -8,6 +8,7 @@ export const useDeleteLocation = () => {
     mutationFn: deleteLocation,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['locations'] });
+      queryClient.invalidateQueries({ queryKey: ['allLocations'] });
     },
     onError: (error) => {
       console.error('Failed to delete location:', error);
