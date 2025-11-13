@@ -23,6 +23,7 @@ const Layout = ({ FormComponent, TableComponent, MapComponent }: LayoutProps) =>
           display: 'flex',
           flexDirection: 'column',
           padding: { xs: 2, md: 3 },
+          paddingBottom: { xs: 2, md: 5 },
           gap: 2,
           overflow: 'hidden',
           height: { xs: 'auto', md: '100%' },
@@ -45,6 +46,7 @@ const Layout = ({ FormComponent, TableComponent, MapComponent }: LayoutProps) =>
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
+            paddingBottom: { xs: 2, md: 4 },
           }}
         >
           <TableComponent />
@@ -55,7 +57,7 @@ const Layout = ({ FormComponent, TableComponent, MapComponent }: LayoutProps) =>
           width: { xs: '100%', md: '50%' },
           height: { xs: '400px', md: '100%' },
           padding: { xs: 2, md: 3 },
-          marginBottom: { xs: 2, md: 0 },
+          paddingBottom: { xs: 2, md: 5 },
           display: 'flex',
           flexDirection: 'column',
         }}
