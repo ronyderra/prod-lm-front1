@@ -11,7 +11,7 @@ import { Extent } from 'ol/extent';
 import { Style, Icon } from 'ol/style';
 import { Location } from '../../types/location.types';
 import { useLocations } from '../../hooks/useLocations';
-import { useLocationPage } from '../../contexts/LocationPageContext';
+import { useLocationPage } from '../../hooks/useLocationPage';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';
 import 'ol/ol.css';
 import './LocationMap.css';

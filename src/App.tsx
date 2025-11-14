@@ -4,7 +4,6 @@ import Layout from './components/Layout/Layout';
 import LocationForm from './components/LocationForm/LocationForm';
 import LocationTable from './components/LocationTable/LocationTable';
 import LocationMap from './components/LocationMap/LocationMap';
-import { LocationPageProvider } from './contexts/LocationPageContext';
 import './App.css';
 
 const theme = createTheme({
@@ -21,15 +20,13 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <LocationPageProvider>
-        <div className="App">
-          <Layout
-            FormComponent={LocationForm}
-            TableComponent={LocationTable}
-            MapComponent={LocationMap}
-          />
-        </div>
-      </LocationPageProvider>
+      <div className="App">
+        <Layout
+          FormComponent={LocationForm}
+          TableComponent={LocationTable}
+          MapComponent={LocationMap}
+        />
+      </div>
     </ThemeProvider>
   );
 }
