@@ -13,7 +13,8 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { locationSchema, LocationFormData } from '../../types/location.types';
+import { LocationFormData } from '../../types/types';
+import { locationSchema } from '../../types/schemas';
 import { useCreateLocation } from '../../hooks/useCreateLocation';
 import './LocationForm.css';
 

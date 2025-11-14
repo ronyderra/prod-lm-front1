@@ -9,7 +9,7 @@ import { Point } from 'ol/geom';
 import { fromLonLat } from 'ol/proj';
 import { Extent } from 'ol/extent';
 import { Style, Icon } from 'ol/style';
-import { Location } from '../../types/location.types';
+import { Location } from '../../types/types';
 import { useLocations } from '../../hooks/useLocations';
 import { useLocationPage } from '../../hooks/useLocationPage';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';

@@ -2,12 +2,7 @@ import React from 'react';
 import { TableBody as MuiTableBody, TableRow, TableCell, IconButton, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Location } from '../../types/location.types';
-type TableBodyProps = {
-  locations: Location[];
-  onEditClick: (location: Location) => void;
-  onDeleteClick: (location: Location) => void;
-};
+import { TableBodyProps, Location } from '../../types/types';
 const TableBody = ({ locations, onEditClick, onDeleteClick }: TableBodyProps) => {
   if (locations?.length === 0) {
     return (

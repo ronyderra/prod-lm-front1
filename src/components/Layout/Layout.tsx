@@ -1,12 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import CategoryFilter from '../CategoryFilter/CategoryFilter';
-
-type LayoutProps = {
-  FormComponent: React.ComponentType;
-  TableComponent: React.ComponentType;
-  MapComponent: React.ComponentType;
-};
+import { LayoutProps } from '../../types/types';
 
 const Layout = ({ FormComponent, TableComponent, MapComponent }: LayoutProps) => {
   return (

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Table, TableContainer, TablePagination, Paper } from '@mui/material';
-import { Location } from '../../types/location.types';
+import { Location } from '../../types/types';
 import { useLocations } from '../../hooks/useLocations';
 import { useLocationPage } from '../../hooks/useLocationPage';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';

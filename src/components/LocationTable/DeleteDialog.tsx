@@ -9,7 +9,7 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { Location } from '../../types/location.types';
+import { Location, DeleteDialogProps } from '../../types/types';
 import { useDeleteLocation } from '../../hooks/useDeleteLocation';
 
 export const useDialog = () => {
@@ -18,17 +18,6 @@ export const useDialog = () => {
   const closeDialog = useCallback(() => setOpen(false), []);
 
   return { open, openDialog, closeDialog };
-};
-
-type DeleteDialogProps = {
-  open: boolean;
-  onClose: () => void;
-  location: Location | null;
-  title?: string;
-  message?: string;
-  confirmText?: string;
-  cancelText?: string;
-  confirmColor?: 'error' | 'primary' | 'secondary' | 'warning' | 'info' | 'success';
 };
 
 const DeleteDialog = ({

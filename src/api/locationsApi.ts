@@ -1,5 +1,5 @@
 import { axiosClient } from './axiosClient';
-import { LocationFormData, Location } from '../types/location.types';
+import { LocationFormData, Location } from '../types/types';
 
 export const getLocations = (page: number = 1, category?: string) => {
   const params: { page?: number; category?: string } = {};

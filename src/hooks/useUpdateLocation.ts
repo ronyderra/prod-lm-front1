@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateLocation } from '../api/locationsApi';
-import { LocationFormData } from '../types/location.types';
+import { LocationFormData } from '../types/types';
 
 export const useUpdateLocation = () => {
   const queryClient = useQueryClient();

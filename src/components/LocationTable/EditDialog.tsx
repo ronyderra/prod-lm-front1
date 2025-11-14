@@ -16,13 +16,9 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { locationSchema, LocationFormData, Location } from '../../types/location.types';
+import { LocationFormData, Location, EditDialogProps } from '../../types/types';
+import { locationSchema } from '../../types/schemas';
 import { useUpdateLocation } from '../../hooks/useUpdateLocation';
-type EditDialogProps = {
-  open: boolean;
-  onClose: () => void;
-  location: Location | null;
-};
 const EditDialog = ({ open, onClose, location }: EditDialogProps) => {
   const updateLocation = useUpdateLocation();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
