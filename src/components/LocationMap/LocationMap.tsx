@@ -12,7 +12,7 @@ import { Style, Icon } from 'ol/style';
 import { Location } from '../../types/location.types';
 import { useLocations } from '../../hooks/useLocations';
 import { useLocationPage } from '../../contexts/LocationPageContext';
-import { useCategoryFilter } from '../../contexts/CategoryFilterContext';
+import { useCategoryFilter } from '../../hooks/useCategoryFilter';
 import 'ol/ol.css';
 import './LocationMap.css';
 

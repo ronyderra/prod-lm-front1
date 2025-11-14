@@ -3,7 +3,7 @@ import { Table, TableContainer, TablePagination, Paper } from '@mui/material';
 import { Location } from '../../types/location.types';
 import { useLocations } from '../../hooks/useLocations';
 import { useLocationPage } from '../../contexts/LocationPageContext';
-import { useCategoryFilter } from '../../contexts/CategoryFilterContext';
+import { useCategoryFilter } from '../../hooks/useCategoryFilter';
 import { useDialog } from './DeleteDialog';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';

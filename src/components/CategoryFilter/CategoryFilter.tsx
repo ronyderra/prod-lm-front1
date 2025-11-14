@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { useCategoryFilter } from '../../contexts/CategoryFilterContext';
+import { useCategoryFilter } from '../../hooks/useCategoryFilter';
 
 const CategoryFilter = () => {
   const { category, setCategory } = useCategoryFilter();
