@@ -67,4 +67,4 @@ const Layout = ({ FormComponent, TableComponent, MapComponent }: LayoutProps) =>
   );
 };
 
-export default Layout;
+export default React.memo(Layout);

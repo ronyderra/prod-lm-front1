@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useLocationPage = () => {
@@ -10,9 +11,12 @@ export const useLocationPage = () => {
     staleTime: Infinity,
   });
 
-  const setPage = (newPage: number) => {
-    queryClient.setQueryData(['locationPage'], newPage);
-  };
+  const setPage = useCallback(
+    (newPage: number) => {
+      queryClient.setQueryData(['locationPage'], newPage);
+    },
+    [queryClient]
+  );
 
   return { page, setPage };
 };

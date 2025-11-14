@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useCategoryFilter = () => {
@@ -10,9 +11,12 @@ export const useCategoryFilter = () => {
     staleTime: Infinity,
   });
 
-  const setCategory = (newCategory: string) => {
-    queryClient.setQueryData(['categoryFilter'], newCategory);
-  };
+  const setCategory = useCallback(
+    (newCategory: string) => {
+      queryClient.setQueryData(['categoryFilter'], newCategory);
+    },
+    [queryClient]
+  );
 
   return { category, setCategory };
 };
