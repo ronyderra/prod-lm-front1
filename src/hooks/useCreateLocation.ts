@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createLocation } from '../api/locationsApi';
+import { createLocation } from '../api';
 
 export const useCreateLocation = () => {
   const queryClient = useQueryClient();
