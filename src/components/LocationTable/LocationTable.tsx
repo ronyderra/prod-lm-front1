@@ -4,7 +4,7 @@ import { Location } from '../../types/types';
 import { useLocations } from '../../hooks/useLocations';
 import { useLocationPage } from '../../hooks/useLocationPage';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';
-import { useDialog } from './DeleteDialog';
+import { useDialog, convertPageToApi, calculateMaxPage, extractLocations, extractTotalCount } from '../../utils';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import TableHead from './TableHead';
@@ -19,14 +19,14 @@ const LocationTable = () => {
   const { openDialog: openEditDialog, closeDialog: closeEditDialog } = editDialog;
   const { openDialog: openDeleteDialog, closeDialog: closeDeleteDialog } = deleteDialog;
   const [selectedRow, setSelectedRow] = useState<Location | null>(null);
-  const apiPage = page + 1;
+  const apiPage = convertPageToApi(page);
   const { data, isLoading, error } = useLocations(apiPage, category);
-  const locations = useMemo(() => data?.data || [], [data]);
-  const totalCount = useMemo(() => data?.total ?? 0, [data]);
+  const locations = useMemo(() => extractLocations(data), [data]);
+  const totalCount = useMemo(() => extractTotalCount(data), [data]);
 
   useEffect(() => {
     if (page > 0 && totalCount > 0) {
-      const maxPage = Math.max(0, Math.ceil(totalCount / 10) - 1);
+      const maxPage = calculateMaxPage(totalCount);
       if (page > maxPage) {
         setPage(0);
       }

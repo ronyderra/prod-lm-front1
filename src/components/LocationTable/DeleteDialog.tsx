@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
   Dialog as MuiDialog,
   DialogTitle,
@@ -9,16 +9,8 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { Location, DeleteDialogProps } from '../../types/types';
+import { DeleteDialogProps } from '../../types/types';
 import { useDeleteLocation } from '../../hooks/useDeleteLocation';
-
-export const useDialog = () => {
-  const [open, setOpen] = useState(false);
-  const openDialog = useCallback(() => setOpen(true), []);
-  const closeDialog = useCallback(() => setOpen(false), []);
-
-  return { open, openDialog, closeDialog };
-};
 
 const DeleteDialog = ({
   open,

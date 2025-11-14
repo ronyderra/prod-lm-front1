@@ -7,32 +7,13 @@ import VectorSource from 'ol/source/Vector';
 import OSM from 'ol/source/OSM';
 import { Point } from 'ol/geom';
 import { fromLonLat } from 'ol/proj';
-import { Extent } from 'ol/extent';
 import { Style, Icon } from 'ol/style';
-import { Location } from '../../types/types';
 import { useLocations } from '../../hooks/useLocations';
 import { useLocationPage } from '../../hooks/useLocationPage';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';
+import { createFeature, calculateExtent, convertPageToApi, extractLocations } from '../../utils';
 import 'ol/ol.css';
 import './LocationMap.css';
-
-const createFeature = (location: Location): Feature<Point> => {
-  const coord = fromLonLat([location.coordinates.lon, location.coordinates.lat]);
-
-  return new Feature({
-    geometry: new Point(coord),
-    name: location.name,
-  });
-};
-
-const calculateExtent = (features: Feature<Point>[]): Extent | null => {
-  if (features.length === 0) return null;
-  const coords = features.map((f) => f.getGeometry()?.getCoordinates() || [0, 0]);
-  const xs = coords.map((c) => c[0]);
-  const ys = coords.map((c) => c[1]);
-
-  return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
-};
 
 const LocationMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -40,7 +21,7 @@ const LocationMap = () => {
   const vectorSourceRef = useRef<VectorSource | null>(null);
   const { page } = useLocationPage();
   const { category } = useCategoryFilter();
-  const apiPage = page + 1;
+  const apiPage = convertPageToApi(page);
   const { data, isLoading } = useLocations(apiPage, category);
 
   useEffect(() => {
@@ -73,9 +54,7 @@ const LocationMap = () => {
     return () => map.setTarget(undefined);
   }, []);
   
-  const locations = useMemo(() => {
-    return data?.data || [];
-  }, [data]);
+  const locations = useMemo(() => extractLocations(data), [data]);
 
   const features = useMemo(() => {
     if (isLoading || locations.length === 0) {
