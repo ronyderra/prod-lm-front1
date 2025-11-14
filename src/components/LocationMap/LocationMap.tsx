@@ -11,7 +11,7 @@ import { Style, Icon } from 'ol/style';
 import { useLocations } from '../../hooks/useLocations';
 import { useLocationPage } from '../../hooks/useLocationPage';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';
-import { createFeature, calculateExtent, convertPageToApi, extractLocations } from '../../utils';
+import { createFeature, convertPageToApi, extractLocations } from '../../utils';
 import 'ol/ol.css';
 import './LocationMap.css';
 
@@ -19,13 +19,27 @@ const LocationMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<Map | null>(null);
   const vectorSourceRef = useRef<VectorSource | null>(null);
+
   const { page } = useLocationPage();
   const { category } = useCategoryFilter();
   const apiPage = convertPageToApi(page);
+
   const { data, isLoading } = useLocations(apiPage, category);
 
+  /** Extract locations */
+  const locations = useMemo(() => extractLocations(data), [data]);
+
+  /** Convert locations → features */
+  const features = useMemo(() => {
+    if (locations.length === 0) return [];
+
+    return locations.map(createFeature);
+  }, [locations]);
+
+  /** Initial map creation */
   useEffect(() => {
     if (!mapRef.current) return;
+
     const vectorSource = new VectorSource();
     const vectorLayer = new VectorLayer({
       source: vectorSource,
@@ -37,51 +51,40 @@ const LocationMap = () => {
         }),
       }),
     });
+
     const map = new Map({
       target: mapRef.current,
       layers: [new TileLayer({ source: new OSM() }), vectorLayer],
-      view: new View({ center: fromLonLat([0, 0]), zoom: 2 }),
+      view: new View({
+        center: fromLonLat([0, 0]),
+        zoom: 2,
+      }),
     });
+
+    /** Click handler */
     map.on('click', (event) => {
-      const features = map.getFeaturesAtPixel(event.pixel);
-      const feature = features[0] as Feature<Point> | undefined;
+      const feature = map.getFeaturesAtPixel(event.pixel)[0] as Feature<Point> | undefined;
       const name = feature?.get('name');
       if (name) alert(name);
     });
+
     mapInstanceRef.current = map;
     vectorSourceRef.current = vectorSource;
 
-    return () => map.setTarget(undefined);
+    return () => {
+      map.setTarget(undefined);
+      map.dispose();
+    };
   }, []);
-  
-  const locations = useMemo(() => extractLocations(data), [data]);
 
-  const features = useMemo(() => {
-    if (isLoading || locations.length === 0) {
-      return [];
-    }
-
-    return locations.map(createFeature);
-  }, [locations, isLoading]);
-
-  const extent = useMemo(() => {
-    if (features.length === 0) {
-      return null;
-    }
-
-    return calculateExtent(features);
-  }, [features]);
-
+  /** Update markers + fit view */
   useEffect(() => {
-    const vectorSource = vectorSourceRef.current;
     const map = mapInstanceRef.current;
-    if (!vectorSource || !map) return;
-    
-    if (isLoading) return;
-    
-    vectorSource.clear();
+    const vectorSource = vectorSourceRef.current;
+    if (!map || !vectorSource) return;
 
-    if (locations.length === 0) {
+    vectorSource.clear();
+    if (features.length === 0) {
       map.getView().setCenter(fromLonLat([0, 0]));
       map.getView().setZoom(2);
 
@@ -89,10 +92,14 @@ const LocationMap = () => {
     }
 
     vectorSource.addFeatures(features);
-    if (extent) {
-      map.getView().fit(extent, { padding: [50, 50, 50, 50], duration: 500 });
-    }
-  }, [features, extent, locations, isLoading]);
+
+    // Auto-fit the view using built-in extent
+    const extent = vectorSource.getExtent();
+    map.getView().fit(extent, {
+      padding: [50, 50, 50, 50],
+      duration: 500,
+    });
+  }, [features]);
 
   return (
     <Box className="location-map-container" sx={{ position: 'relative' }}>
