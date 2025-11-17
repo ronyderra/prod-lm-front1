@@ -4,7 +4,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { TableProps, Location } from '../../types/types';
 
-const TableRowComponent = React.memo(({ location, onEditClick, onDeleteClick }: { location: Location; onEditClick: (location: Location) => void; onDeleteClick: (location: Location) => void }) => {
+type RowProps = {
+  location: Location;
+  onEditClick: (location: Location) => void;
+  onDeleteClick: (location: Location) => void;
+};
+
+const TableRowComponent = React.memo(({ location, onEditClick, onDeleteClick }: RowProps) => {
   const handleEditClick = useCallback(() => {
     onEditClick(location);
   }, [location, onEditClick]);
@@ -53,7 +59,12 @@ const TableBody = ({ locations, onEditClick, onDeleteClick }: TableProps) => {
   return (
     <MuiTableBody>
       {locations?.map((location) => (
-        <TableRowComponent key={location._id} location={location} onEditClick={onEditClick} onDeleteClick={onDeleteClick} />
+        <TableRowComponent
+          key={location._id}
+          location={location}
+          onEditClick={onEditClick}
+          onDeleteClick={onDeleteClick}
+        />
       ))}
     </MuiTableBody>
   );
