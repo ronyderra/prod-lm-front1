@@ -1,12 +1,11 @@
 import { axiosClient } from '../client/axiosClient';
 import { LocationFormData, Location } from '../../types/types';
-import { LocationsResponse } from '../types/api.types';
 import { AxiosError } from 'axios';
 
 export const getLocations = async (
   page: number = 1,
   category?: string
-): Promise<LocationsResponse> => {
+) => {
   try {
     const params: { page?: number; category?: string } = {};
     
@@ -18,7 +17,7 @@ export const getLocations = async (
       params.category = category;
     }
 
-    const response = await axiosClient.get<LocationsResponse>('/locations', { params });
+    const response = await axiosClient.get('/locations', { params });
 
     return response.data;
   } catch (error) {
@@ -30,9 +29,9 @@ export const getLocations = async (
   }
 };
 
-export const createLocation = async (data: LocationFormData): Promise<Location> => {
+export const createLocation = async (data: LocationFormData) => {
   try {
-    const response = await axiosClient.post<Location>('/locations', data);
+    const response = await axiosClient.post('/locations', data);
 
     return response.data;
   } catch (error) {
@@ -44,7 +43,7 @@ export const createLocation = async (data: LocationFormData): Promise<Location> 
   }
 };
 
-export const updateLocation = async (id: string, data: LocationFormData): Promise<Location> => {
+export const updateLocation = async (id: string, data: LocationFormData) => {
   try {
     const response = await axiosClient.put<Location>(`/locations/${id}`, data);
 
@@ -58,7 +57,7 @@ export const updateLocation = async (id: string, data: LocationFormData): Promis
   }
 };
 
-export const deleteLocation = async (id: string): Promise<void> => {
+export const deleteLocation = async (id: string) => {
   try {
     await axiosClient.delete(`/locations/${id}`);
   } catch (error) {
