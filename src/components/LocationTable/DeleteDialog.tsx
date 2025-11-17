@@ -9,7 +9,7 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { DeleteDialogProps } from '../../types/types';
+import { DeleteProps } from '../../types/types';
 import { useDeleteLocation } from '../../hooks/useDeleteLocation';
 
 const DeleteDialog = ({
@@ -21,7 +21,7 @@ const DeleteDialog = ({
   confirmText = 'Confirm',
   cancelText = 'Cancel',
   confirmColor = 'primary',
-}: DeleteDialogProps) => {
+}: DeleteProps) => {
   const deleteLocation = useDeleteLocation();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 

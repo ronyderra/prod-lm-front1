@@ -77,7 +77,11 @@ const LocationTable = () => {
   }
 
   if (error) {
-    return <Paper className="location-table-container">Error loading locations</Paper>;
+    return (
+      <Paper className="location-table-container" sx={{ p: 2 }}>
+        Error loading locations: {error instanceof Error ? error.message : 'Unknown error'}
+      </Paper>
+    );
   }
 
   return (

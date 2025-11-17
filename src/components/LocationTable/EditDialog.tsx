@@ -16,10 +16,10 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { LocationFormData, Location, EditDialogProps } from '../../types/types';
+import { LocationData, Location, EditProps } from '../../types/types';
 import { locationSchema } from '../../types/schemas';
 import { useUpdateLocation } from '../../hooks/useUpdateLocation';
-const EditDialog = ({ open, onClose, location }: EditDialogProps) => {
+const EditDialog = ({ open, onClose, location }: EditProps) => {
   const updateLocation = useUpdateLocation();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const {
@@ -27,7 +27,7 @@ const EditDialog = ({ open, onClose, location }: EditDialogProps) => {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<LocationFormData>({
+  } = useForm<LocationData>({
     resolver: zodResolver(locationSchema),
     defaultValues: {
       name: '',
@@ -55,7 +55,7 @@ const EditDialog = ({ open, onClose, location }: EditDialogProps) => {
     }
   }, [location, open, reset]);
 
-  const submit = (data: LocationFormData) => {
+  const submit = (data: LocationData) => {
     if (location?._id) {
       updateLocation.mutate(
         { id: location._id, data },

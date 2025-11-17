@@ -1,9 +1,5 @@
 import { Location } from '../types/types';
-
-type LocationsResponse = {
-  data?: Location[];
-  total?: number;
-};
+import { LocationsResponse } from '../api/types/api.types';
 
 export const extractLocations = (data: LocationsResponse | Location[] | undefined): Location[] => {
   if (Array.isArray(data)) {

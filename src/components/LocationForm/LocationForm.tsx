@@ -12,7 +12,7 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { LocationFormData } from '../../types/types';
+import { LocationData } from '../../types/types';
 import { locationSchema } from '../../types/schemas';
 import { useCreateLocation } from '../../hooks/useCreateLocation';
 import './LocationForm.css';
@@ -26,7 +26,7 @@ const LocationForm = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<LocationFormData>({
+  } = useForm<LocationData>({
     resolver: zodResolver(locationSchema),
     defaultValues: {
       name: '',
@@ -40,7 +40,7 @@ const LocationForm = () => {
     },
   });
 
-  const submit = (data: LocationFormData) => {
+  const submit = (data: LocationData) => {
     createLocation.mutate(data, {
       onSuccess: () => {
         reset();

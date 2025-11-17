@@ -1,11 +1,12 @@
 import { axiosClient } from '../client/axiosClient';
-import { LocationFormData, Location } from '../../types/types';
+import { LocationData, Location } from '../../types/types';
+import { LocationsResponse } from '../types/api.types';
 import { AxiosError } from 'axios';
 
 export const getLocations = async (
   page: number = 1,
   category?: string
-) => {
+): Promise<LocationsResponse> => {
   try {
     const params: { page?: number; category?: string } = {};
     
@@ -17,7 +18,7 @@ export const getLocations = async (
       params.category = category;
     }
 
-    const response = await axiosClient.get('/locations', { params });
+    const response = await axiosClient.get<LocationsResponse>('/locations', { params });
 
     return response.data;
   } catch (error) {
@@ -29,7 +30,7 @@ export const getLocations = async (
   }
 };
 
-export const createLocation = async (data: LocationFormData) => {
+export const createLocation = async (data: LocationData) => {
   try {
     const response = await axiosClient.post('/locations', data);
 
@@ -43,7 +44,7 @@ export const createLocation = async (data: LocationFormData) => {
   }
 };
 
-export const updateLocation = async (id: string, data: LocationFormData) => {
+export const updateLocation = async (id: string, data: LocationData) => {
   try {
     const response = await axiosClient.put<Location>(`/locations/${id}`, data);
 

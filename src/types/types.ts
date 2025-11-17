@@ -2,11 +2,19 @@ import { z } from 'zod';
 import { locationSchema } from './schemas';
 import React from 'react';
 
-export type LocationFormData = z.infer<typeof locationSchema>;
+export type LocationData = z.infer<typeof locationSchema>;
 
-export interface Location extends LocationFormData {
+export type Location = {
   _id: string;
-}
+  name: string;
+  category: string;
+  coordinates: {
+    lon: number;
+    lat: number;
+  };
+  address?: string;
+  notes?: string;
+};
 
 export type LayoutProps = {
   FormComponent: React.ComponentType;
@@ -14,19 +22,19 @@ export type LayoutProps = {
   MapComponent: React.ComponentType;
 };
 
-export type TableBodyProps = {
+export type TableProps = {
   locations: Location[];
   onEditClick: (location: Location) => void;
   onDeleteClick: (location: Location) => void;
 };
 
-export type EditDialogProps = {
+export type EditProps = {
   open: boolean;
   onClose: () => void;
   location: Location | null;
 };
 
-export type DeleteDialogProps = {
+export type DeleteProps = {
   open: boolean;
   onClose: () => void;
   location: Location | null;

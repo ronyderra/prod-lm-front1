@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateLocation } from '../api';
-import { LocationFormData } from '../types/types';
+import { LocationData } from '../types/types';
 
 export const useUpdateLocation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: LocationFormData }) => updateLocation(id, data),
+    mutationFn: ({ id, data }: { id: string; data: LocationData }) => updateLocation(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['locations'] });
       queryClient.invalidateQueries({ queryKey: ['allLocations'] });

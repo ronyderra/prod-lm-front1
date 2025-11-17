@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { TableBody as MuiTableBody, TableRow, TableCell, IconButton, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { TableBodyProps, Location } from '../../types/types';
+import { TableProps, Location } from '../../types/types';
 
 const TableRowComponent = React.memo(({ location, onEditClick, onDeleteClick }: { location: Location; onEditClick: (location: Location) => void; onDeleteClick: (location: Location) => void }) => {
   const handleEditClick = useCallback(() => {
@@ -37,7 +37,7 @@ const TableRowComponent = React.memo(({ location, onEditClick, onDeleteClick }: 
 
 TableRowComponent.displayName = 'TableRowComponent';
 
-const TableBody = ({ locations, onEditClick, onDeleteClick }: TableBodyProps) => {
+const TableBody = ({ locations, onEditClick, onDeleteClick }: TableProps) => {
   if (locations?.length === 0) {
     return (
       <MuiTableBody>
