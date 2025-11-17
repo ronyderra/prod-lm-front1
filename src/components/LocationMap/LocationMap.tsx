@@ -11,38 +11,25 @@ import { Style, Icon } from 'ol/style';
 import { useLocations } from '../../hooks/useLocations';
 import { useLocationPage } from '../../hooks/useLocationPage';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';
-import { createFeature, convertPageToApi, extractLocations } from '../../utils';
+import { createFeature } from '../../utils';
 import 'ol/ol.css';
 import './LocationMap.css';
 
 const LocationMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<Map | null>(null);
+  const mapRefInstance = useRef<Map | null>(null);
   const vectorSourceRef = useRef<VectorSource | null>(null);
-
   const { page } = useLocationPage();
   const { category } = useCategoryFilter();
-  const apiPage = convertPageToApi(page);
+  const { data, isLoading } = useLocations(page + 1, category);
+  const features = useMemo(() => (data?.data ?? []).map(createFeature),[data]);
 
-  const { data, isLoading } = useLocations(apiPage, category);
-
-  /** Extract locations */
-  const locations = useMemo(() => extractLocations(data), [data]);
-
-  /** Convert locations → features */
-  const features = useMemo(() => {
-    if (locations.length === 0) return [];
-
-    return locations.map(createFeature);
-  }, [locations]);
-
-  /** Initial map creation */
+  /** Create map ONCE */
   useEffect(() => {
     if (!mapRef.current) return;
-
-    const vectorSource = new VectorSource();
+    const source = new VectorSource();
     const vectorLayer = new VectorLayer({
-      source: vectorSource,
+      source,
       style: new Style({
         image: new Icon({
           src: 'https://openlayers.org/en/latest/examples/data/icon.png',
@@ -61,29 +48,25 @@ const LocationMap = () => {
       }),
     });
 
-    /** Click handler */
     map.on('click', (event) => {
-      const feature = map.getFeaturesAtPixel(event.pixel)[0] as Feature<Point> | undefined;
-      const name = feature?.get('name');
+      const f = map.getFeaturesAtPixel(event.pixel)[0] as Feature<Point> | undefined;
+      const name = f?.get('name');
       if (name) alert(name);
     });
 
-    mapInstanceRef.current = map;
-    vectorSourceRef.current = vectorSource;
+    mapRefInstance.current = map;
+    vectorSourceRef.current = source;
 
-    return () => {
-      map.setTarget(undefined);
-      map.dispose();
-    };
+    return () => map.setTarget(undefined);
   }, []);
 
-  /** Update markers + fit view */
+  /** Update markers whenever features change */
   useEffect(() => {
-    const map = mapInstanceRef.current;
-    const vectorSource = vectorSourceRef.current;
-    if (!map || !vectorSource) return;
+    const map = mapRefInstance.current;
+    const source = vectorSourceRef.current;
+    if (!map || !source) return;
 
-    vectorSource.clear();
+    source.clear();
     if (features.length === 0) {
       map.getView().setCenter(fromLonLat([0, 0]));
       map.getView().setZoom(2);
@@ -91,32 +74,26 @@ const LocationMap = () => {
       return;
     }
 
-    vectorSource.addFeatures(features);
+    source.addFeatures(features);
 
-    // Auto-fit the view using built-in extent
-    const extent = vectorSource.getExtent();
+    const extent = source.getExtent();
     map.getView().fit(extent, {
       padding: [50, 50, 50, 50],
-      duration: 500,
+      duration: 400,
     });
   }, [features]);
 
   return (
-    <Box className="location-map-container" sx={{ position: 'relative' }}>
+    <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
       <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
       {isLoading && (
         <Box
           sx={{
             position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+            inset: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            zIndex: 1000,
           }}
         >
           Loading...
