@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  Box,
   TextField,
   Button,
   Select,
@@ -59,17 +58,11 @@ const LocationForm = () => {
   };
 
   return (
-    <Box className="location-form-container">
+    <div className="location-form-container">
       <form onSubmit={handleSubmit(submit)}>
         <Stack spacing={2}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
-              gap: 2,
-            }}
-          >
-            <Box sx={{ width: { xs: '100%', md: '50%' } }}>
+          <div className="location-form-row">
+            <div className="location-form-field">
               <Controller
                 name="name"
                 control={control}
@@ -84,8 +77,8 @@ const LocationForm = () => {
                   />
                 )}
               />
-            </Box>
-            <Box sx={{ width: { xs: '100%', md: '50%' } }}>
+            </div>
+            <div className="location-form-field">
               <Controller
                 name="category"
                 control={control}
@@ -100,16 +93,10 @@ const LocationForm = () => {
                   </FormControl>
                 )}
               />
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
-              gap: 2,
-            }}
-          >
-            <Box sx={{ width: { xs: '100%', md: '50%' } }}>
+            </div>
+          </div>
+          <div className="location-form-row">
+            <div className="location-form-field">
               <Controller
                 name="coordinates.lon"
                 control={control}
@@ -126,8 +113,8 @@ const LocationForm = () => {
                   />
                 )}
               />
-            </Box>
-            <Box sx={{ width: { xs: '100%', md: '50%' } }}>
+            </div>
+            <div className="location-form-field">
               <Controller
                 name="coordinates.lat"
                 control={control}
@@ -144,8 +131,8 @@ const LocationForm = () => {
                   />
                 )}
               />
-            </Box>
-          </Box>
+            </div>
+          </div>
           <Controller
             name="address"
             control={control}
@@ -185,11 +172,11 @@ const LocationForm = () => {
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+        <Alert onClose={handleCloseSnackbar} severity="success" className="location-form-alert">
           Location added successfully!
         </Alert>
       </Snackbar>
-    </Box>
+    </div>
   );
 };
 

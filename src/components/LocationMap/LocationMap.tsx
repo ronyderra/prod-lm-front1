@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useMemo } from 'react';
-import { Box } from '@mui/material';
 import { Map, View, Feature } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
@@ -24,7 +23,6 @@ const LocationMap = () => {
   const { data, isLoading } = useLocations(page + 1, category);
   const features = useMemo(() => (data?.data ?? []).map(createFeature),[data]);
 
-  /** Create map ONCE */
   useEffect(() => {
     if (!mapRef.current) return;
     const source = new VectorSource();
@@ -60,7 +58,6 @@ const LocationMap = () => {
     return () => map.setTarget(undefined);
   }, []);
 
-  /** Update markers whenever features change */
   useEffect(() => {
     const map = mapRefInstance.current;
     const source = vectorSourceRef.current;
@@ -84,22 +81,14 @@ const LocationMap = () => {
   }, [features]);
 
   return (
-    <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-      <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
+    <div className="location-map-container">
+      <div ref={mapRef} className="location-map-wrapper" />
       {isLoading && (
-        <Box
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+        <div className="location-map-loading">
           Loading...
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };
 

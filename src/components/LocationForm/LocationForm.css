@@ -6,8 +6,28 @@
   overflow-y: auto;
 }
 
-@media (max-width: 600px) {
-  .location-form-container {
-    padding: 16px;
+.location-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 900px) {
+  .location-form-row {
+    flex-direction: row;
   }
+}
+
+.location-form-field {
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .location-form-field {
+    width: 50%;
+  }
+}
+
+.location-form-alert {
+  width: 100%;
 }
