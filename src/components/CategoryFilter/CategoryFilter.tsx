@@ -27,5 +27,4 @@ const CategoryFilter = () => {
   );
 };
 
-export default React.memo(CategoryFilter);
-
+export default CategoryFilter;
