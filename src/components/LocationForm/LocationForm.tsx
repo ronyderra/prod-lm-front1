@@ -139,7 +139,7 @@ const LocationForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Address (optional)"
+                label="Address (optional - will be added automatically to the table)"
                 fullWidth
                 error={!!errors.address}
                 helperText={errors.address?.message}
