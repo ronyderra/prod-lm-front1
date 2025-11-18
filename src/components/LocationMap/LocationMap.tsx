@@ -28,7 +28,7 @@ const LocationMap = () => {
       source,
       style: new Style({
         image: new Icon({
-          src: 'https://openlayers.org/en/latest/examples/data/icon.png',
+          src: '../../assets/default-marker.png',
           scale: 0.8,
           anchor: [0.5, 1],
         }),
@@ -87,7 +87,7 @@ const LocationMap = () => {
       feature.setStyle(
         new Style({
           image: new Icon({
-            src: 'https://openlayers.org/en/latest/examples/data/icon.png',
+            src: '../../assets/default-marker.png',
             scale: 0.8,
             anchor: [0.5, 1],
           }),
@@ -106,7 +106,7 @@ const LocationMap = () => {
       selectedFeature.setStyle(
         new Style({
           image: new Icon({
-            src: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png',
+            src: '../../assets/selected-marker.png',
             scale: 1,
             anchor: [0.5, 1],
           }),
