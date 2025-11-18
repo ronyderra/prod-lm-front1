@@ -1,5 +1,6 @@
 import React from 'react';
 import CategoryFilter from '../CategoryFilter/CategoryFilter';
+import { SearchInput } from '../SearchInput/SearchInput';
 import { LayoutProps } from '../../types/types';
 import './Layout.css';
 
@@ -11,7 +12,12 @@ const Layout = ({ FormComponent, TableComponent, MapComponent }: LayoutProps) =>
           <FormComponent />
         </div>
         <div className="layout-filter-container">
-          <CategoryFilter />
+          <div className="layout-search-wrapper">
+            <SearchInput />
+          </div>
+          <div className="layout-category-wrapper">
+            <CategoryFilter />
+          </div>
         </div>
         <div className="layout-table-container">
           <TableComponent />

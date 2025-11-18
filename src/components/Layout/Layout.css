@@ -46,6 +46,17 @@
 .layout-filter-container {
   flex: 0 0 auto;
   padding-bottom: 8px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.layout-search-wrapper {
+  flex: 1;
+}
+
+.layout-category-wrapper {
+  flex: 1;
 }
 
 .layout-table-container {

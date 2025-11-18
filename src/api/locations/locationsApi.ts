@@ -5,10 +5,12 @@ import { AxiosError } from 'axios';
 
 export const getLocations = async (
   page: number = 1,
-  category?: string
+  category?: string,
+  search?: string
 ): Promise<LocationsResponse> => {
   try {
-    const params: { page?: number; category?: string } = {};
+    console.log({search});
+    const params: { page?: number; category?: string; name?: string } = {};
     
     if (page > 1) {
       params.page = page;
@@ -16,6 +18,10 @@ export const getLocations = async (
     
     if (category && category !== '') {
       params.category = category;
+    }
+
+    if (search && search !== '') {
+      params.name = search as string;
     }
 
     const response = await axiosClient.get<LocationsResponse>('/locations', { params });

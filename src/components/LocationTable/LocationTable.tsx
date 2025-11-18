@@ -4,7 +4,7 @@ import { Location } from '../../types/types';
 import { useGetLocations } from '../../hooks/useGetLocations';
 import { useTablePagination } from '../../hooks/useTablePagination';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';
-import { useDialog, convertPageToApi, calculateMaxPage, extractLocations, extractTotalCount } from '../../utils';
+import { useDialog, calculateMaxPage, extractLocations, extractTotalCount } from '../../utils';
 import DeleteDialog from './DeleteDialog';
 import EditDialog from './EditDialog';
 import TableHead from './TableHead';
@@ -19,8 +19,7 @@ const LocationTable = () => {
   const { openDialog: openEditDialog, closeDialog: closeEditDialog } = editDialog;
   const { openDialog: openDeleteDialog, closeDialog: closeDeleteDialog } = deleteDialog;
   const [selectedRow, setSelectedRow] = useState<Location | null>(null);
-  const apiPage = convertPageToApi(page);
-  const { data, isLoading, error } = useGetLocations(apiPage, category);
+  const { data, isLoading, error } = useGetLocations();
   const locations = useMemo(() => extractLocations(data), [data]);
   const totalCount = useMemo(() => extractTotalCount(data), [data]);
 

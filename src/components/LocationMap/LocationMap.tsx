@@ -8,8 +8,6 @@ import { Point } from 'ol/geom';
 import { fromLonLat } from 'ol/proj';
 import { Style, Icon } from 'ol/style';
 import { useGetLocations } from '../../hooks/useGetLocations';
-import { useTablePagination } from '../../hooks/useTablePagination';
-import { useCategoryFilter } from '../../hooks/useCategoryFilter';
 import { createFeature } from '../../utils';
 import 'ol/ol.css';
 import './LocationMap.css';
@@ -18,9 +16,7 @@ const LocationMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapRefInstance = useRef<Map | null>(null);
   const vectorSourceRef = useRef<VectorSource | null>(null);
-  const { page } = useTablePagination();
-  const { category } = useCategoryFilter();
-  const { data, isLoading } = useGetLocations(page + 1, category);
+  const { data, isLoading } = useGetLocations();
   const features = useMemo(() => (data?.data ?? []).map(createFeature),[data]);
 
   useEffect(() => {
