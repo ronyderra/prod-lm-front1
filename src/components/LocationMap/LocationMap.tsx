@@ -9,6 +9,7 @@ import { fromLonLat } from 'ol/proj';
 import { Style, Icon } from 'ol/style';
 import { useGetLocations } from '../../hooks/useGetLocations';
 import { createFeature } from '../../utils';
+import { useSelectedLocation } from '../../hooks/useSelectedLocation';
 import 'ol/ol.css';
 import './LocationMap.css';
 
@@ -18,6 +19,7 @@ const LocationMap = () => {
   const vectorSourceRef = useRef<VectorSource | null>(null);
   const { data, isLoading } = useGetLocations();
   const features = useMemo(() => (data?.data ?? []).map(createFeature),[data]);
+  const { selected, setSelected } = useSelectedLocation();
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -44,8 +46,8 @@ const LocationMap = () => {
 
     map.on('click', (event) => {
       const f = map.getFeaturesAtPixel(event.pixel)[0] as Feature<Point> | undefined;
-      const name = f?.get('name');
-      if (name) alert(name);
+      const id = f?.get('id');
+      if (id) setSelected(id);
     });
 
     mapRefInstance.current = map;

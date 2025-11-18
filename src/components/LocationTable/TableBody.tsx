@@ -3,6 +3,7 @@ import { TableBody as MuiTableBody, TableRow, TableCell, IconButton, Box } from 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { TableProps, Location } from '../../types/types';
+import { useSelectedLocation } from '../../hooks/useSelectedLocation';
 
 type RowProps = {
   location: Location;
@@ -11,20 +12,29 @@ type RowProps = {
 };
 
 const TableRowComponent = React.memo(({ location, onEditClick, onDeleteClick }: RowProps) => {
-  const [isHighlighted] = useState(false);
+  const { selected, setSelected } = useSelectedLocation();
 
-  const handleEditClick = useCallback(() => {
+  const handleRowClick = useCallback(() => {
+    const details = `Name: ${location.name}\nCategory: ${location.category}\nLongitude: ${location.coordinates.lon}\nLatitude: ${location.coordinates.lat}\nAddress: ${location.address || '-'}\nNotes: ${location.notes || '-'}`;
+    alert(details);
+  }, [location]);
+
+  const handleEditClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
     onEditClick(location);
   }, [location, onEditClick]);
 
-  const handleDeleteClick = useCallback(() => {
+  const handleDeleteClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
     onDeleteClick(location);
   }, [location, onDeleteClick]);
 
   return (
     <TableRow
+      onClick={handleRowClick}
       sx={{
-        backgroundColor: isHighlighted ? 'lightgreen' : 'transparent',
+        backgroundColor: location._id === selected ? 'lightgreen' : 'transparent',
+        cursor: 'pointer',
       }}
     >
       <TableCell>{location.name}</TableCell>
