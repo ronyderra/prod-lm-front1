@@ -6,12 +6,31 @@ export const useDeleteLocation = () => {
 
   return useMutation({
     mutationFn: deleteLocation,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['locations'] });
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['locations'] });
+      const previous = queryClient.getQueryData(['locations']);
+
+      queryClient.setQueryData(['locations'], (old: any) => {
+        if (!old) return old;
+
+        return {
+          ...old,
+          data: old.data.filter((loc: any) => loc._id !== id),
+        };
+      });
+      console.log('useDeleteLocation useMutation - executed');
+      
+      return { previous };
     },
-    onError: (error) => {
-      console.error('Failed to delete location:', error);
+    onError: (_err, _id, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(['locations'], context.previous);
+      }
+
       alert('Could not delete location');
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['locations'] });
     },
   });
 };
