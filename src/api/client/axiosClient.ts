@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
 
-const baseURL = process.env.REACT_APP_API_BASE_URL || 'http://10.0.0.7:3001';
+const baseURL = process.env.REACT_APP_API_BASE_URL || 'https://lm-back-f1ed4b6fed3f.herokuapp.com';
 
 export const axiosClient: AxiosInstance = axios.create({
   baseURL,

@@ -5,7 +5,7 @@ export function useSSE() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const url = `http://10.0.0.7:3001/events`;
+    const url = `https://lm-back-f1ed4b6fed3f.herokuapp.com/events`;
     const sse = new EventSource(url, { withCredentials: false });
 
     sse.onmessage = (event) => {
