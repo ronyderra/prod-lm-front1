@@ -4,6 +4,7 @@ import Layout from './components/Layout/Layout';
 import LocationForm from './components/LocationForm/LocationForm';
 import LocationTable from './components/LocationTable/LocationTable';
 import LocationMap from './components/LocationMap/LocationMap';
+import { useSSE } from './hooks/useSSE';
 import './App.css';
 
 const theme = createTheme({
@@ -17,6 +18,8 @@ const theme = createTheme({
 });
 
 function App() {
+  useSSE()
+  
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

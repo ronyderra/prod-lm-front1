@@ -9,7 +9,6 @@ export const useUpdateLocation = () => {
     mutationFn: ({ id, data }: { id: string; data: LocationData }) => updateLocation(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['locations'] });
-      queryClient.invalidateQueries({ queryKey: ['allLocations'] });
     },
     onError: (error) => {
       console.error('Failed to update location:', error);
