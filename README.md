@@ -71,7 +71,7 @@ src/
 │       ├── LocationMap.tsx      # OpenLayers map component
 │       └── LocationMap.css      # Map container styling
 ├── hooks/
-│   ├── useLocations.ts          # Query hook for fetching all locations
+│   ├── useGetLocations.ts       # Query hook for fetching all locations
 │   ├── useCreateLocation.ts     # Mutation hook for creating locations
 │   ├── useUpdateLocation.ts     # Mutation hook for updating locations
 │   └── useDeleteLocation.ts     # Mutation hook for deleting locations

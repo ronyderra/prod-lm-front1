@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Table, TableContainer, TablePagination, Paper } from '@mui/material';
 import { Location } from '../../types/types';
-import { useLocations } from '../../hooks/useLocations';
-import { useLocationPage } from '../../hooks/useLocationPage';
+import { useGetLocations } from '../../hooks/useGetLocations';
+import { useTablePagination } from '../../hooks/useTablePagination';
 import { useCategoryFilter } from '../../hooks/useCategoryFilter';
 import { useDialog, convertPageToApi, calculateMaxPage, extractLocations, extractTotalCount } from '../../utils';
 import DeleteDialog from './DeleteDialog';
@@ -12,7 +12,7 @@ import TableBody from './TableBody';
 import './LocationTable.css';
 
 const LocationTable = () => {
-  const { page, setPage } = useLocationPage();
+  const { page, setPage } = useTablePagination();
   const { category } = useCategoryFilter();
   const deleteDialog = useDialog();
   const editDialog = useDialog();
@@ -20,7 +20,7 @@ const LocationTable = () => {
   const { openDialog: openDeleteDialog, closeDialog: closeDeleteDialog } = deleteDialog;
   const [selectedRow, setSelectedRow] = useState<Location | null>(null);
   const apiPage = convertPageToApi(page);
-  const { data, isLoading, error } = useLocations(apiPage, category);
+  const { data, isLoading, error } = useGetLocations(apiPage, category);
   const locations = useMemo(() => extractLocations(data), [data]);
   const totalCount = useMemo(() => extractTotalCount(data), [data]);
 

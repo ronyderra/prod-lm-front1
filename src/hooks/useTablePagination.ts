@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-export const useLocationPage = () => {
+export const useTablePagination = () => {
   const queryClient = useQueryClient();
 
   const { data: page = 0 } = useQuery({
