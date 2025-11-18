@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { TableBody as MuiTableBody, TableRow, TableCell, IconButton, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,6 +11,8 @@ type RowProps = {
 };
 
 const TableRowComponent = React.memo(({ location, onEditClick, onDeleteClick }: RowProps) => {
+  const [isHighlighted] = useState(false);
+
   const handleEditClick = useCallback(() => {
     onEditClick(location);
   }, [location, onEditClick]);
@@ -20,7 +22,11 @@ const TableRowComponent = React.memo(({ location, onEditClick, onDeleteClick }: 
   }, [location, onDeleteClick]);
 
   return (
-    <TableRow>
+    <TableRow
+      sx={{
+        backgroundColor: isHighlighted ? 'lightgreen' : 'transparent',
+      }}
+    >
       <TableCell>{location.name}</TableCell>
       <TableCell>{location.category}</TableCell>
       <TableCell>{location.coordinates.lon}</TableCell>

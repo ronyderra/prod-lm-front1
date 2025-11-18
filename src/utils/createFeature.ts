@@ -9,6 +9,7 @@ export const createFeature = (location: Location): Feature<Point> => {
   return new Feature({
     geometry: new Point(coord),
     name: location.name,
+    id: location._id,
   });
 };
 
