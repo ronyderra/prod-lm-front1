@@ -15,9 +15,9 @@ const TableRowComponent = React.memo(({ location, onEditClick, onDeleteClick }: 
   const { selected, setSelected } = useSelectedLocation();
 
   const handleRowClick = useCallback(() => {
-    const details = `Name: ${location.name}\nCategory: ${location.category}\nLongitude: ${location.coordinates.lon}\nLatitude: ${location.coordinates.lat}\nAddress: ${location.address || '-'}\nNotes: ${location.notes || '-'}`;
-    alert(details);
-  }, [location]);
+    console.log('location._id', location._id);
+    setSelected(location._id);
+  }, [setSelected, location._id]);
 
   const handleEditClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();

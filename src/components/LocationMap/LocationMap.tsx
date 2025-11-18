@@ -78,6 +78,43 @@ const LocationMap = () => {
     });
   }, [features]);
 
+  useEffect(() => {
+    const source = vectorSourceRef.current;
+    if (!source) return;
+  
+    // Reset all marker styles
+    source.getFeatures().forEach((feature) => {
+      feature.setStyle(
+        new Style({
+          image: new Icon({
+            src: 'https://openlayers.org/en/latest/examples/data/icon.png',
+            scale: 0.8,
+            anchor: [0.5, 1],
+          }),
+        })
+      );
+    });
+  
+    if (!selected) return;
+  
+    // Highlight the selected marker
+    const selectedFeature = source
+      .getFeatures()
+      .find((f) => f.get('id') === selected);
+  
+    if (selectedFeature) {
+      selectedFeature.setStyle(
+        new Style({
+          image: new Icon({
+            src: 'https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png',
+            scale: 1,
+            anchor: [0.5, 1],
+          }),
+        })
+      );
+    }
+  }, [selected]);
+  
   return (
     <div className="location-map-container">
       <div ref={mapRef} className="location-map-wrapper" />

@@ -10,7 +10,7 @@ export const useSelectedLocation = () => {
     staleTime: Infinity,
   });
 
-  const setSelected = (location: any | null) => {
+  const setSelected = (location: string | null) => {
     queryClient.setQueryData(['selectedLocation'], location);
   };
 
